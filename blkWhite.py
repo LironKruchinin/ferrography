@@ -93,9 +93,9 @@ if len(path) > 0:
             print("The file that exceded 120 microns: ", file)
 
          ########## to see all of the boxes we change the 45 to 2 so basic filtration works
-         if XYDistance > 3 and XYDistance < 75: 
+         if XYDistance > 0 and XYDistance < 75: 
             basicCounter += 1     
-            # cv2.rectangle(originalImage, (x,y-4),(x+w,y+h), (255,155,0),1)
+            cv2.rectangle(originalImage, (x,y-4),(x+w,y+h), (255,155,0),1)
             # cv2.putText(originalImage, str(XYDistance), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 0, 0), 1)
 
 
