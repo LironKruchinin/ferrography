@@ -61,6 +61,7 @@ if len(path) > 0:
 			cv2.drawContours(img, contours, -1, (0,0,0), 1)
 			for c in contours:
 				rect = cv2.boundingRect(c)
+				global x, y, w, h
 				x,y,w,h = rect
 				distancePoints = math.dist([w + x, h + y] , [x, y])
 				distancePoints = round(distancePoints, 3)
@@ -93,12 +94,15 @@ if len(path) > 0:
 			# cv2.imshow('mask',mask)
 			cv2.imshow('original',img)
 			# cv2.imshow('res',res)
+			
 		
 
 		
 			#waitfor the user to press escape and break the while loop 
 			k = cv2.waitKey(1) & 0xFF
-			if k == 27:
+			if k == ord('m'):
+				mode = not mode
+			elif k == 27:
 				break
 				
 #destroys all window
