@@ -131,7 +131,7 @@ def photo():
 
 						getImgPixels()
 						#show image
-						cv2.imshow('mask',mask)
+						# cv2.imshow('mask',mask)
 						cv2.imshow('original',img)
 						img = cv2.resize(img, (0,0), fx=0.8, fy=0.8)
 						# cv2.imshow('res',res)
