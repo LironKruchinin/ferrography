@@ -23,7 +23,13 @@ pathOutPut = glob.glob('Output photo/*.jpg')
 
 #global variable
 stopOnPhoto = True
-
+filterPhoto = 0
+remClutter= 0
+basicCounter = 0
+countUnder75 = 0
+counterBetween75 = 0
+counterBetween105 = 0
+counterBetween120 = 0
 
 #trackbar callback fucntion to update HSV value
 def callback(x):
@@ -40,13 +46,20 @@ def photo():
 	cv2.createTrackbar('Clutter','Clutter controller',196,255,callback)
 
 	# stopOnPhoto = True
-	filterPhoto = 0
-	remClutter= 0
-	basicCounter = 0
-	counterBetween75 = 0
-	counterBetween105 = 0
-	counterBetween120 = 0
+	global filterPhoto
+	global remClutte
+	global countUnder75
+	global basicCounter
+	global counterBetween75
+	global counterBetween105
+	global counterBetween120
 
+	# filterPhoto = 0
+	# remClutter= 0
+	# basicCounter = 0
+	# counterBetween75 = 0
+	# counterBetween105 = 0
+	# counterBetween120 = 0
 	# If true, we stop on photos, If false we run and calculate all photos
 	if stopOnPhoto:
 
@@ -199,7 +212,8 @@ def photo():
 						distancePoints = math.dist([w + x, h + y] , [x, y])
 						distancePoints = round(distancePoints, 3)
 						
-						if distancePoints > 50 and distancePoints < 75:
+						if distancePoints > 30 and distancePoints < 70:
+							countUnder75 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 						
@@ -208,14 +222,14 @@ def photo():
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 							cv2.imwrite("Output photo/"+imgName, img)
-							print("The file has exceded 75 microns: ", imgName)
+							# print("The file has exceded 75 microns: ", imgName)
 
 						if distancePoints > 105 and distancePoints < 120:
 							counterBetween105 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 							cv2.imwrite("Output photo/"+imgName, img)
-							print("The file has exceded 105 microns: ", imgName)
+							# print("The file has exceded 105 microns: ", imgName)
 
 			
 						if distancePoints > 120:
@@ -223,7 +237,7 @@ def photo():
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 							cv2.imwrite("Output photo/"+imgName, img)
-							print("The file has exceded 120 microns: ", imgName)
+							# print("The file has exceded 120 microns: ", imgName)
 
 						if distancePoints > 0 and distancePoints < 75:
 							basicCounter += 1
@@ -244,14 +258,14 @@ def photo():
 					if k == 27:
 						break
 
-			print()
-			print("--------")
-			print("Below 75 micron", basicCounter)
-			print("Between 75 micron",counterBetween75)
-			print("Between 105 micron", counterBetween105)
-			print("Between 120 micron",counterBetween120)
-			print(len(pathOutPut), "photos have exceded the limits")
-			print("--------")
+			# print()
+			# print("--------")
+			# print("Below 75 micron", basicCounter)
+			# print("Between 75 micron",counterBetween75)
+			# print("Between 105 micron", counterBetween105)
+			# print("Between 120 micron",counterBetween120)
+			# print(len(pathOutPut), "photos have exceded the limits")
+			# print("--------")
 
 	# destroys all window
 	cv2.destroyAllWindows()
