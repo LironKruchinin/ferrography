@@ -26,6 +26,13 @@ pathOutPut = glob.glob('/Output photo*.jpg')
 
 
 #global variable
+global filterPhoto
+global remClutte
+global countUnder75
+global basicCounter
+global counterBetween75
+global counterBetween105
+global counterBetween120
 stopOnPhoto = True
 filterPhoto = 0
 remClutter= 0
@@ -176,7 +183,7 @@ def photo():
 					# print(imgPath.split('\\'))
 					imgPath = imgPath.split('\\')
 					imgName = imgPath[len(imgPath) - 1]
-					print(imgName)
+					# print(imgName)
 					#read source image
 					img = cv2.imread(file)
 					#convert sourece image to HSC color mode

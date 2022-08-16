@@ -77,18 +77,19 @@ def runOnPhoto():
 def selFilePath():
    global path
    spalling.path = askopenfilenames(parent=window, title='Select files')
-   arr = np.asarray(spalling.path)
-   spalling.path = arr[0].split('/')
-   spalling.path.pop()
-   # spalling.path.join()
-   for i in spalling.path:
-      path += str(i)+"/"
+   # arr = np.asarray(spalling.path)
+   # spalling.path = arr[0].split('/')
+   # spalling.path.pop()
+   # # spalling.path.join()
+   # for i in spalling.path:
+   #    path += str(i)+"/"
 
    print(path)
 
 
 
 def resetSpallingCount():
+   spalling.countUnder75 = 0
    spalling.basicCounter = 0
    spalling.counterBetween75 = 0
    spalling.counterBetween105 = 0

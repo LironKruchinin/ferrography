@@ -2,23 +2,23 @@ import spalingIdentify as spalling
 import matplotlib.pyplot as plt
 
 def showSpallingGraph():
-   data = {'Under 75 micron': spalling.countUnder75, '75 micron':spalling.counterBetween75, '105 micron':spalling.counterBetween105, '120 micron':spalling.counterBetween120 }
+      def addlabels(x,y):
+            for i in range(len(x)):
+                  plt.text(i, y[i], y[i], ha = 'center')
+                  
+#    data = {'Under 75 micron': spalling.countUnder75, '75 micron':spalling.counterBetween75, '105 micron':spalling.counterBetween105, '120 micron':spalling.counterBetween120 }
+      x = ['Under 75 micron', '75 micron', '105 micron', '120 micron']
+      y = [spalling.countUnder75, spalling.counterBetween75, spalling.counterBetween105, spalling.counterBetween120]
 
-   courses = list(data.keys())
-   values = list(data.values())
+      plt.figure(figsize = (10, 5))
+      plt.bar(x, y)
+      addlabels(x, y)
+      plt.title("College Admission")
+      plt.xlabel("Courses")
+      plt.ylabel("Number of Admissions")
+      plt.show()
+      
 
-   fig, ax = plt.subplots(figsize =(10, 6))
-   ax.yaxis.set_tick_params(pad = 2)
-   # creating the bar plot
-   plt.bar(courses, values, color ='blue',
-         width = 0.4)
-   
-   
-
-   plt.xlabel("size of spalling")
-   plt.ylabel("No. of spalling ")
-   plt.title("Count of spalling fragments in the loaded photo set")
-   plt.show()
 
 # print(spalling.counterBetween75)
 # print(spalling.counterBetween75)
