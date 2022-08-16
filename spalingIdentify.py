@@ -18,7 +18,11 @@ import tkinter as tk
 
 # imports the path that you want to read:
 path = glob.glob('*.jpg')
-pathOutPut = glob.glob('Output photo/*.jpg')
+
+pathOutPut = glob.glob('/Output photo*.jpg')
+
+# askopenfilenames(parent=window, title='Select files')
+# print(pa)
 
 
 #global variable
@@ -172,7 +176,7 @@ def photo():
 					# print(imgPath.split('\\'))
 					imgPath = imgPath.split('\\')
 					imgName = imgPath[len(imgPath) - 1]
-					# print(imgName)
+					print(imgName)
 					#read source image
 					img = cv2.imread(file)
 					#convert sourece image to HSC color mode
@@ -228,7 +232,7 @@ def photo():
 							counterBetween105 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-							cv2.imwrite("Output photo/"+imgName, img)
+							cv2.imwrite('Output photo/'+imgName, img)
 							# print("The file has exceded 105 microns: ", imgName)
 
 			
@@ -269,5 +273,7 @@ def photo():
 
 	# destroys all window
 	cv2.destroyAllWindows()
+
+
 
 
