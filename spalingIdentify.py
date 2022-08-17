@@ -15,14 +15,8 @@ import numpy as np
 import math
 import os
 import tkinter as tk
-
+import getFilePath as filePath
 # imports the path that you want to read:
-# path = glob.glob('*.jpg')
-
-# pathOutPut = glob.glob('/Output photo*.jpg')
-
-# askopenfilenames(parent=window, title='Select files')
-# print(pa)
 
 
 #global variable
@@ -38,7 +32,9 @@ global counterBetween120
 global overFilter
 global overClutter 
 global calcPercentageOfPic
+global photoArea
 
+photoArea = 1
 path = ''
 stopOnPhoto = True
 filterPhoto = 0
@@ -53,6 +49,12 @@ calcPercentageOfPic = 0
 overFilter = 15
 overClutter = 196
 
+path = glob.glob(f'{filePath.saveFilePath}/*.jpg')
+
+pathOutPut = glob.glob('/Output photo*.jpg')
+
+# askopenfilenames(parent=window, title='Select files')
+# print(pa)
 #trackbar callback fucntion to update HSV value
 def callback(x):
 	pass
@@ -132,27 +134,27 @@ def photo():
 							if distancePoints > 50 and distancePoints < 75:
 								# counterBetween75 += 1
 								cv2.rectangle(img, (x,y-5),(x+w,y+h), (12,13,205),1)
-								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (170, 255, 198), 1)
+								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
 								# cv2.imwrite("Output photo/"+imgName, img)
 								# print("The file has exceded 75 microns: ", imgName)
 							
 							if distancePoints > 70 and distancePoints < 100:
 								# counterBetween75 += 1
 								cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
-								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
 								# print("The file has exceded 75 microns: ", file)
 
 							if distancePoints > 100 and distancePoints < 120:
 								# counterBetween105 += 1
 								cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
-								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
 								# print("The file has exceded 105 microns: ", file)
 
 				
 							if distancePoints > 120:
 								# counterBetween120 += 1
 								cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
-								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
 								# print("The file has exceded 120 microns: ", file)
 
 							# if distancePoints > 0 and distancePoints < 75:
@@ -182,13 +184,12 @@ def photo():
 	else:
 
 			if len(path) > 0:
-				if not os.path.exists('Output photo'):
-					os.mkdir('Output photo')
+
 
 				for file in path:
 					imgPath = file
 					# print(imgPath.split('\\'))
-					imgPath = imgPath.split('\\')
+					imgPath = imgPath.split('/')
 					imgName = imgPath[len(imgPath) - 1]
 					# print(imgName)
 					#read source image
@@ -236,28 +237,28 @@ def photo():
 						if distancePoints > 30 and distancePoints < 70:
 							countUnder75 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
-							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
 						
 						if distancePoints > 70 and distancePoints < 105:
 							counterBetween75 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
-							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-							cv2.imwrite("Output photo/"+imgName, img)
+							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
+							cv2.imwrite(f'{filePath.saveFilePath}/Output photo/'+imgName, img)
 							# print("The file has exceded 75 microns: ", imgName)
 
 						if distancePoints > 105 and distancePoints < 120:
 							counterBetween105 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
-							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-							cv2.imwrite('Output photo/'+imgName, img)
+							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
+							cv2.imwrite(f'{filePath.saveFilePath}/Output photo/'+imgName, img)
 							# print("The file has exceded 105 microns: ", imgName)
 
 			
 						if distancePoints > 120:
 							counterBetween120 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
-							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-							cv2.imwrite("Output photo/"+imgName, img)
+							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
+							cv2.imwrite(f'{filePath.saveFilePath}/Output photo/'+imgName, img)
 							# print("The file has exceded 120 microns: ", imgName)
 
 						if distancePoints > 0 and distancePoints < 75:
@@ -280,7 +281,6 @@ def photo():
 					if k == 27:
 						break
 
-			calcPercentageOfPic = ((calcPercentageOfPic * 100) / photoArea)
 
 			# print(photoArea)
 			# print("--------")
@@ -298,3 +298,5 @@ def photo():
 
 
 
+
+calcPercentageOfPic = ((calcPercentageOfPic * 100) / photoArea)
