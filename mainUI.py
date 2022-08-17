@@ -20,23 +20,22 @@ window.geometry('350x450')
 window.title("Ferrography")
 
 isRunOnPhoto = tk.BooleanVar()
-isDelPhoto = tk.BooleanVar()
 
-# def teset():
-#    if spectro.spectroWindow.state():
-#       ferroSN = textFieldTestSN.get('1.0', 'end-1c')
-#       spectroSN = spectro.testSNText.get('1.0', 'end-1c')
+def teset():
+   if spectro.spectroWindow.state():
+      ferroSN = textFieldTestSN.get('1.0', 'end-1c')
+      spectroSN = spectro.testSNText.get('1.0', 'end-1c')
       
-#    if spectro.spectroWindow.state() and ferroSN != spectroSN:
-#       tk.messagebox.showerror('Serial number Error', f'The serial numbers dont match \n Ferro SN: {ferroSN} \n Spectro SN: {spectroSN}')
-#    else:
-#       spalling.stopOnPhoto = isRunOnPhoto.get()
-#       if len(spalling.path) > 0:
-#          if isRunOnPhoto.get():
-#             spalling.photo()
+   if spectro.spectroWindow.state() and ferroSN != spectroSN:
+      tk.messagebox.showerror('Serial number Error', f'The serial numbers dont match \n Ferro SN: {ferroSN} \n Spectro SN: {spectroSN}')
+   else:
+      spalling.stopOnPhoto = isRunOnPhoto.get()
+      if len(spalling.path) > 0:
+         if isRunOnPhoto.get():
+            spalling.photo()
 
-#          else:
-#             spalling.photo()
+         else:
+            spalling.photo()
 
    # print(len(spalling.path))
    # print(spalling.counterBetween75)
@@ -48,7 +47,7 @@ def runOnPhoto():
       try:
          shutil.rmtree(f'{pathTemp}/Output photo')
       except:
-         print("error")
+         print()
       
    spalling.overFilter = int(textBoxFilter.get('1.0', 'end-1c'))
    spalling.overClutter = int(textBoxClutter.get('1.0', 'end-1c'))
@@ -71,7 +70,8 @@ def runOnPhoto():
 
             else:
                tk.messagebox.showerror('No Data loaded', 'No data was loaded')
-               
+
+
    except:
       spalling.stopOnPhoto = isRunOnPhoto.get()
       if len(spalling.path) > 0:
@@ -97,11 +97,13 @@ def selFilePath():
    pathTemp = '/'.join(pathTemp)
    filePath.saveFilePath = pathTemp
    
-   # if  os.path.exists(f'{pathTemp}/Output photo'):
-   #    try:
-   #       shutil.rmtree(f'{pathTemp}/Output photo')
-   #    except:
-   #       print("Error, cant delete folder")
+   if not os.path.exists(f'{pathTemp}/Output photo'):
+      os.mkdir(f'{pathTemp}/Output photo')
+   else:
+      try:
+         shutil.rmtree(f'{pathTemp}/Output photo')
+      except:
+         print()
 
    # print(pathTemp)
 
@@ -142,11 +144,6 @@ chk1 = tk.Checkbutton(window, text='Pause on each photo?',
 chk1.pack()
 chk1.place(x = 110, y = 95)
 
-
-remFold = tk.Checkbutton(window, text='Delete output folder?', 
-                     variable=isDelPhoto, onvalue=True, offvalue=False)
-remFold.pack()
-remFold.place(x = 110, y = 105)
 
 
 # label for overwrite default values
