@@ -17,22 +17,29 @@ import os
 import tkinter as tk
 
 # imports the path that you want to read:
-path = glob.glob('*.jpg')
+# path = glob.glob('*.jpg')
 
-pathOutPut = glob.glob('/Output photo*.jpg')
+# pathOutPut = glob.glob('/Output photo*.jpg')
 
 # askopenfilenames(parent=window, title='Select files')
 # print(pa)
 
 
 #global variable
-global filterPhoto
-global remClutte
-global countUnder75
-global basicCounter
-global counterBetween75
-global counterBetween105
-global counterBetween120
+global path
+global stopOnPhoto
+global filterPhoto 
+global remClutter
+global basicCounter 
+global countUnder75 
+global counterBetween75 
+global counterBetween105 
+global counterBetween120 
+global overFilter
+global overClutter 
+global calcPercentageOfPic
+
+path = ''
 stopOnPhoto = True
 filterPhoto = 0
 remClutter= 0
@@ -41,6 +48,10 @@ countUnder75 = 0
 counterBetween75 = 0
 counterBetween105 = 0
 counterBetween120 = 0
+calcPercentageOfPic = 0
+
+overFilter = 15
+overClutter = 196
 
 #trackbar callback fucntion to update HSV value
 def callback(x):
@@ -53,8 +64,8 @@ def photo():
 	cv2.resizeWindow("Clutter controller", 670,10)
 
 	#create trackbars
-	cv2.createTrackbar('Filter','Clutter controller',15,50,callback)
-	cv2.createTrackbar('Clutter','Clutter controller',196,255,callback)
+	cv2.createTrackbar('Filter','Clutter controller',overFilter,50,callback)
+	cv2.createTrackbar('Clutter','Clutter controller',overClutter,255,callback)
 
 	# stopOnPhoto = True
 	global filterPhoto
@@ -64,13 +75,9 @@ def photo():
 	global counterBetween75
 	global counterBetween105
 	global counterBetween120
+	global calcPercentageOfPic
 
-	# filterPhoto = 0
-	# remClutter= 0
-	# basicCounter = 0
-	# counterBetween75 = 0
-	# counterBetween105 = 0
-	# counterBetween120 = 0
+
 	# If true, we stop on photos, If false we run and calculate all photos
 	if stopOnPhoto:
 
@@ -191,6 +198,7 @@ def photo():
 				
 
 					def getImgPixels():
+						global orgW, orgH, photoArea
 						microns = 0
 						orgW = hsv.shape[0]
 						orgH = hsv.shape[1]
@@ -198,6 +206,8 @@ def photo():
 							microns = float(orgH) / 1294.57
 						if float(microns) == 0:
 							microns = 1
+
+						photoArea = orgW * orgH
 						# print(orgW, orgH, microns)
 
 					filterPhoto = cv2.getTrackbarPos('Filter','Clutter controller')
@@ -252,6 +262,7 @@ def photo():
 
 						if distancePoints > 0 and distancePoints < 75:
 							basicCounter += 1
+							calcPercentageOfPic += distancePoints
 							# cv2.rectangle(img, (x,y-4),(x+w,y+h), (255,155,0),1)
 							# cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 255, 0), 1)
 
@@ -269,12 +280,15 @@ def photo():
 					if k == 27:
 						break
 
-			# print()
+			calcPercentageOfPic = ((calcPercentageOfPic * 100) / photoArea)
+
+			# print(photoArea)
 			# print("--------")
 			# print("Below 75 micron", basicCounter)
 			# print("Between 75 micron",counterBetween75)
 			# print("Between 105 micron", counterBetween105)
 			# print("Between 120 micron",counterBetween120)
+			# print("Total surface of spalling is ", calcPercentageOfPic)
 			# print(len(pathOutPut), "photos have exceded the limits")
 			# print("--------")
 
