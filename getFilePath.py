@@ -1,1 +1,4 @@
 saveFilePath = ''
+hourAnswer = ''
+ferroSN = ''
+spectroSN = ''

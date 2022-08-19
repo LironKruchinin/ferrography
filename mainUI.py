@@ -11,9 +11,11 @@ import sys
 import shutil
 
 global spectroWindow
-spectroWindow = 0
 global pathTemp
+global hourAnswer
+spectroWindow = 0
 pathTemp = ''
+hourAnswer = ''
 
 window = tk.Tk()
 window.geometry('350x450')
@@ -23,11 +25,11 @@ isRunOnPhoto = tk.BooleanVar()
 
 def teset():
    if spectro.spectroWindow.state():
-      ferroSN = textFieldTestSN.get('1.0', 'end-1c')
+      filePath.ferroSN = textFieldTestSN.get('1.0', 'end-1c')
       spectroSN = spectro.testSNText.get('1.0', 'end-1c')
       
-   if spectro.spectroWindow.state() and ferroSN != spectroSN:
-      tk.messagebox.showerror('Serial number Error', f'The serial numbers dont match \n Ferro SN: {ferroSN} \n Spectro SN: {spectroSN}')
+   if spectro.spectroWindow.state() and filePath.ferroSN != spectroSN:
+      tk.messagebox.showerror('Serial number Error', f'The serial numbers dont match \n Ferro SN: {filePath.ferroSN} \n Spectro SN: {spectroSN}')
    else:
       spalling.stopOnPhoto = isRunOnPhoto.get()
       if len(spalling.path) > 0:
@@ -43,21 +45,22 @@ def teset():
 def runOnPhoto():
    if not os.path.exists(f'{pathTemp}/Output photo'):
       os.mkdir(f'{pathTemp}/Output photo')
-   else:
-      try:
-         shutil.rmtree(f'{pathTemp}/Output photo')
-      except:
-         print()
+   # else:
+   #    try:
+         # shutil.rmtree(f'{pathTemp}/Output photo')
+   #    except:
+   #       print('test')
       
    spalling.overFilter = int(textBoxFilter.get('1.0', 'end-1c'))
    spalling.overClutter = int(textBoxClutter.get('1.0', 'end-1c'))
    try: 
       if spectro.spectroWindow.state():
-         ferroSN = textFieldTestSN.get('1.0', 'end-1c')
-         spectroSN = spectro.testSNText.get('1.0', 'end-1c')
+         filePath.ferroSN = textFieldTestSN.get('1.0', 'end-1c')
+         
+         spectroSN = filePath.spectroSN
 
-         if ferroSN != spectroSN:
-            tk.messagebox.showerror('Serial number Error', f'The serial numbers dont match \n Ferro SN: {ferroSN} \n Spectro SN: {spectroSN}')
+         if filePath.ferroSN != spectroSN:
+            tk.messagebox.showerror('Serial number Error', f'The serial numbers dont match \n Ferro SN: {filePath.ferroSN} \n Spectro SN: {spectroSN}')
          
          else:
             spalling.stopOnPhoto = isRunOnPhoto.get()
@@ -71,7 +74,6 @@ def runOnPhoto():
             else:
                tk.messagebox.showerror('No Data loaded', 'No data was loaded')
 
-
    except:
       spalling.stopOnPhoto = isRunOnPhoto.get()
       if len(spalling.path) > 0:
@@ -82,6 +84,35 @@ def runOnPhoto():
 
       else:
          tk.messagebox.showerror('No Data loaded', 'No data was loaded')
+
+   if spalling.counterBetween120 >= 3:
+         filePath.hourAnswer = '1'
+         print(filePath.hourAnswer)
+
+   elif spalling.counterBetween120 >= 1:
+         filePath.hourAnswer = 5
+         print(int(filePath.hourAnswer))
+
+   elif spalling.counterBetween105 >= 3:
+         filePath.hourAnswer = 10
+         print(int(filePath.hourAnswer))
+
+   elif spalling.counterBetween105 >= 1:
+         filePath.hourAnswer = 15
+         print(int(filePath.hourAnswer))
+
+   elif spalling.counterBetween75 >= 10:
+         filePath.hourAnswer = 15
+         print(int(filePath.hourAnswer))
+
+   elif spalling.counterBetween75 >= 1:
+         filePath.hourAnswer = 27.5
+         print(float(filePath.hourAnswer))
+
+   else:
+         filePath.hourAnswer = 27.5
+         print(float(filePath.hourAnswer))
+
 
 
 
@@ -103,7 +134,7 @@ def selFilePath():
       try:
          shutil.rmtree(f'{pathTemp}/Output photo')
       except:
-         print()
+         print("Error")
 
    # print(pathTemp)
 

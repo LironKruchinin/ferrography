@@ -282,6 +282,7 @@ def photo():
 						break
 
 
+			calcPercentageOfPic = ((calcPercentageOfPic * 100) / photoArea)
 			# print(photoArea)
 			# print("--------")
 			# print("Below 75 micron", basicCounter)
@@ -292,11 +293,11 @@ def photo():
 			# print(len(pathOutPut), "photos have exceded the limits")
 			# print("--------")
 
+
+				
 	# destroys all window
 	cv2.destroyAllWindows()
 
 
 
 
-
-calcPercentageOfPic = ((calcPercentageOfPic * 100) / photoArea)
