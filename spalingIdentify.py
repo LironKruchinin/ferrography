@@ -31,8 +31,11 @@ global counterBetween105
 global counterBetween120 
 global overFilter
 global overClutter 
+global blkAndWht
 global calcPercentageOfPic
 global photoArea
+global blkWht
+
 
 photoArea = 1
 path = ''
@@ -48,7 +51,8 @@ calcPercentageOfPic = 0
 
 overFilter = 15
 overClutter = 196
-
+blkAndWht = 0
+blkWht = 0
 path = glob.glob(f'{filePath.saveFilePath}/*.jpg')
 
 pathOutPut = glob.glob('/Output photo*.jpg')
@@ -68,7 +72,10 @@ def photo():
 	#create trackbars
 	cv2.createTrackbar('Filter','Clutter controller',overFilter,50,callback)
 	cv2.createTrackbar('Clutter','Clutter controller',overClutter,255,callback)
+	cv2.createTrackbar('Transparent','Clutter controller',blkAndWht,1,callback)
 
+
+	
 	# stopOnPhoto = True
 	global filterPhoto
 	global remClutte
@@ -78,7 +85,7 @@ def photo():
 	global counterBetween105
 	global counterBetween120
 	global calcPercentageOfPic
-
+	global blkWht
 
 	# If true, we stop on photos, If false we run and calculate all photos
 	if stopOnPhoto:
@@ -109,6 +116,7 @@ def photo():
 
 						filterPhoto = cv2.getTrackbarPos('Filter','Clutter controller')
 						remClutter = cv2.getTrackbarPos('Clutter','Clutter controller')
+						blkWht = cv2.getTrackbarPos('Transparent','Clutter controller')
 						hsremClutter = np.array([filterPhoto, 0, remClutter], np.uint8)
 						hsv_high = np.array([180, 255, 255], np.uint8)
 
@@ -121,9 +129,14 @@ def photo():
 						res = cv2.bitwise_and(img, img, mask=mask)
 
 
+							
+
 						contours, heirarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 						cv2.drawContours(img, contours, -1, (0,0,0), 1)
 						contours=[cv2.boundingRect(cnt) for cnt in contours]
+      
+						if blkWht > 0:
+							img = cv2.addWeighted(img, 0, res, blkWht, 0)
 
 						for cnt in contours:
 							global x,y,w,h
@@ -164,7 +177,7 @@ def photo():
 
 						getImgPixels()
 						#show image
-						cv2.imshow('mask',mask)
+						# cv2.imshow('mask',mask)
 						cv2.imshow('original',img)
 						# img = cv2.resize(img, (0,0), fx=0.8, fy=0.8)
 						# cv2.imshow('res',res)
