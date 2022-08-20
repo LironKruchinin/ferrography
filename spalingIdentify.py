@@ -131,20 +131,20 @@ def photo():
 							distancePoints = math.dist([w + x, h + y] , [x, y])
 							distancePoints = round(distancePoints, 3)
 
-							if distancePoints > 50 and distancePoints < 75:
+							if distancePoints > 45 and distancePoints < 70:
 								# counterBetween75 += 1
 								cv2.rectangle(img, (x,y-5),(x+w,y+h), (12,13,205),1)
 								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
 								# cv2.imwrite("Output photo/"+imgName, img)
 								# print("The file has exceded 75 microns: ", imgName)
 							
-							if distancePoints > 70 and distancePoints < 100:
+							if distancePoints > 70 and distancePoints < 105:
 								# counterBetween75 += 1
 								cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
 								# print("The file has exceded 75 microns: ", file)
 
-							if distancePoints > 100 and distancePoints < 120:
+							if distancePoints > 105 and distancePoints < 120:
 								# counterBetween105 += 1
 								cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 								cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
@@ -164,9 +164,9 @@ def photo():
 
 						getImgPixels()
 						#show image
-						# cv2.imshow('mask',mask)
+						cv2.imshow('mask',mask)
 						cv2.imshow('original',img)
-						img = cv2.resize(img, (0,0), fx=0.8, fy=0.8)
+						# img = cv2.resize(img, (0,0), fx=0.8, fy=0.8)
 						# cv2.imshow('res',res)
 			
 
@@ -234,23 +234,30 @@ def photo():
 						distancePoints = math.dist([w + x, h + y] , [x, y])
 						distancePoints = round(distancePoints, 3)
 						
-						if distancePoints > 30 and distancePoints < 70:
+						if distancePoints > 0 and distancePoints < 70:
 							countUnder75 += 1
-							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
-							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
+							# cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
+							# cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
 						
+						if distancePoints > 45 and distancePoints < 70:
+							# counterBetween75 += 1
+							cv2.rectangle(img, (x,y-5),(x+w,y+h), (10,240,240),1)
+							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
+							cv2.imwrite(f'{filePath.saveFilePath}/Suspects/'+imgName, img)
+							# print("The file has exceded 75 microns: ", imgName)
+      
 						if distancePoints > 70 and distancePoints < 105:
 							counterBetween75 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
-							cv2.imwrite(f'{filePath.saveFilePath}/Output photo/'+imgName, img)
+							cv2.imwrite(f'{filePath.saveFilePath}/75 Micron/'+imgName, img)
 							# print("The file has exceded 75 microns: ", imgName)
 
 						if distancePoints > 105 and distancePoints < 120:
 							counterBetween105 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
-							cv2.imwrite(f'{filePath.saveFilePath}/Output photo/'+imgName, img)
+							cv2.imwrite(f'{filePath.saveFilePath}/105 Micron/'+imgName, img)
 							# print("The file has exceded 105 microns: ", imgName)
 
 			
@@ -258,10 +265,10 @@ def photo():
 							counterBetween120 += 1
 							cv2.rectangle(img, (x,y-5),(x+w,y+h), (236,240,24),1)
 							cv2.putText(img, str(distancePoints), (x, y-9), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 1)
-							cv2.imwrite(f'{filePath.saveFilePath}/Output photo/'+imgName, img)
+							cv2.imwrite(f'{filePath.saveFilePath}/120 Micron/'+imgName, img)
 							# print("The file has exceded 120 microns: ", imgName)
 
-						if distancePoints > 0 and distancePoints < 75:
+						if distancePoints > 0 and distancePoints < 70:
 							basicCounter += 1
 							calcPercentageOfPic += distancePoints
 							# cv2.rectangle(img, (x,y-4),(x+w,y+h), (255,155,0),1)
@@ -270,9 +277,9 @@ def photo():
 					getImgPixels()
 					#show image
 					# cv2.imshow('mask',mask)
+					# img = cv2.resize(img, (0,0), fx=0.8, fy=0.8)
 					cv2.imshow('original',img)
 					# cv2.imshow('res',res)
-					# img = cv2.resize(img, (0,0), fx=0.8, fy=0.8)
 		
 
 		

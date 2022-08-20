@@ -2,7 +2,11 @@ import tkinter as tk
 import getFilePath as tempData
 
 global getAnswer
+global spectroSN
+
 getAnswer = ''
+spectroSN = ''
+
 
 def spectroUI():
    OPTIONS = [
@@ -21,14 +25,19 @@ def spectroUI():
    # if spectro 27.5 ferro 15, check if same, 
    # if different go to lowest hour, else go to user written hour
    def showAnswer():
+      global spectroSN
+      
       tempData.spectroSN = testSNText.get('1.0', 'end-1c')
       spectroSN = testSNText.get('1.0', 'end-1c')
+      
       if tempData.ferroSN != testSNText.get('1.0', 'end-1c'):
          tk.messagebox.showerror('Serial number Error', f'The serial numbers dont match \n Ferro SN: {tempData.ferroSN} \n Spectro SN: {spectroSN}')
+      
       global getAnswer
       userChoice = hourChoice.get()
       rate = dropDownChoice.get()
       computerAnswer = tempData.hourAnswer
+      
       if userChoice == 'Repair':
          userChoice = 1
       
@@ -43,6 +52,7 @@ def spectroUI():
 
          if float(userChoice) > float(computerAnswer):
             getAnswer = float(computerAnswer)
+            
             if getAnswer == 1.0:
                tk.messagebox.showinfo('Final answer', 'Send the enigine to repairs')
             
@@ -52,6 +62,7 @@ def spectroUI():
 
          else:
             getAnswer = float(userChoice)
+            
             if getAnswer == 1.0:
                tk.messagebox.showinfo('Final answer', 'Send the enigine to repairs')
            
@@ -66,6 +77,7 @@ def spectroUI():
 
          if float(userChoice) < float(computerAnswer):
             getAnswer = float(userChoice)
+            
             if getAnswer == 1.0:
                tk.messagebox.showinfo('Final answer', 'Send the enigine to repairs')
             else:
@@ -73,6 +85,7 @@ def spectroUI():
 
          else:
             getAnswer = float(computerAnswer)
+            
             if getAnswer == 1.0:
                tk.messagebox.showinfo('Final answer', 'Send the enigine to repairs')
             else:
@@ -83,6 +96,7 @@ def spectroUI():
       # print(computerAnswer)
       # get the smallest amount of h
       # if rate == 'Different':
+
 
 
    global spectroWindow
@@ -130,7 +144,8 @@ def spectroUI():
    runBtn.pack()
    runBtn.place(x = 120, y = 155)
 
-   
+   global spectroSN
+   spectroSN = testSNText.get('1.0', 'end-1c')
 
 # check if rate is different,
 # rate = different
